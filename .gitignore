@@ -1,0 +1,4 @@
+.venv
+build
+dist
+uugai_python_color_prediction.egg-info

@@ -3,10 +3,13 @@ This project aims to predict the color of an image using Python. It utilizes mac
 
 K-means clustering is a popular unsupervised learning algorithm used for clustering data points into groups. In the context of color prediction, k-means clustering is used to group similar pixel values together, allowing us to identify the dominant color in an image. The algorithm works by iteratively assigning each pixel to the cluster with the closest centroid, and then updating the centroids based on the new assignments. This process continues until the centroids no longer change significantly. By applying k-means clustering to the pixel values of an image, we can identify the cluster centroids, which represent the dominant colors. To use this project, simply follow the installation instructions below. 
 
-## Installation TODO
+## Installation
 
-To get started with the Python color prediction function, simply install the package using pip and follow the provided documentation for configuration and usage instructions: `pip install uugai_python_color_prediction`
-To import the function into your own python file, use: `from uugai_python_color_prediction import find_main_colors`
+To get started with the Python color prediction function, simply install the package using pip and follow the provided documentation for configuration and usage instructions.
+Thereafter, import the function into your own python file. The package can be found on [PyPi](https://pypi.org/project/uugai-python-color-prediction/).
+
+* installation using pip: `pip install uugai_python_color_prediction`
+* python import: `from uugai_python_color_prediction.ColorPrediction import ColorPrediction`
 
 ## Usage
 The find_main_colors function is used to predict the dominant colors of an image. It takes several parameters:
@@ -22,13 +25,15 @@ To use the find_main_colors function, simply pass the required parameters and ca
 
 ## Usage example
 ```Python
+from uugai_python_color_prediction.ColorPrediction import ColorPrediction
+
 IMAGE_PATH = 'python_color_prediction/data/flowers.jpeg'
 
 # Read the image
 image = cv2.imread(IMAGE_PATH)
 
 # Call the elbow_method function
-optimal_centroids, optimal_k, optimal_percentages = find_main_colors(image, min_clusters=1, max_clusters=10, downsample_factor=0.95, increase_elbow=0, verbose=True, plot=True)
+optimal_centroids, optimal_k, optimal_percentages = ColorPrediction.find_main_colors(image, min_clusters=1, max_clusters=10, downsample_factor=0.95, increase_elbow=0, verbose=True, plot=True)
 ```
 
 This would result in the following output, with `verbose = True`:
@@ -55,5 +60,5 @@ The percentage of points in each cluster are:  [43 29 27]
 The plotting parameter enables the creation of a KMeans-clustering inertia plot, which is used for the elbow method. Additionally, it generates a 3D scatter plot of the pixel values, displaying the cluster centroids in their corresponding colors. Finally, it includes a small plot showing the centroid colors along with their respective percentages.
 
 <div style="text-align:center;">
-    <img src="uugai_python_color_prediction/data/plot_flowers.png" alt="Flowers plot" style="width:80%; max-width:1000px;">
+    <img src="./uugai_python_color_prediction/data/plot_flowers.png" alt="Flowers plot" style="width:80%; max-width:1000px;">
 </div>
