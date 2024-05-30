@@ -55,5 +55,5 @@ The percentage of points in each cluster are:  [43 29 27]
 The plotting parameter enables the creation of a KMeans-clustering inertia plot, which is used for the elbow method. Additionally, it generates a 3D scatter plot of the pixel values, displaying the cluster centroids in their corresponding colors. Finally, it includes a small plot showing the centroid colors along with their respective percentages.
 
 <div style="text-align:center;">
-    <img src="data/plot_flowers.png" alt="Flowers plot" style="width:80%; max-width:1000px;">
+    <img src="python_color_prediction/data/plot_flowers.png" alt="Flowers plot" style="width:80%; max-width:1000px;">
 </div>
