@@ -22,7 +22,21 @@ The find_main_colors function is used to predict the dominant colors of an image
 * verbose: A boolean value indicating whether to print verbose output during color prediction. Default value is False.
 * plot: A boolean value indicating whether to plot the color prediction results. Default value is False.
 
-To use the find_main_colors function, simply pass the required parameters and call the function. The function will return the predicted dominant colors of the image, optimal number of centroids ± the elbow offset and the percentages of pixels belonging to that centroid.
+To use the find_main_colors function, simply pass the required parameters and call the function. The function will return all the kmeans cluster data and optimal k-value.
+The kmeans-data looks something like this:
+```
+{
+1: 
+    {'inertias': 18358588.71525097, 
+    'centroids': array([[128, 108, 100]]), 
+    'percentages': array([100.])}, 
+2: 
+    {'inertias': 4514844.78507838, 
+    'centroids': array([[ 85,  93,  71], [227, 143, 167]]), 
+    'percentages': array([69.8, 30.2])}
+...
+}
+```
 
 ### Alpha channel additonal details
 * If RGBA or BGRA is used, pixels with full transparancy are removed for clustering. This allows the color detection to work with for example masked images from segmentation models. For pixels with alpha values different from 0, the color channels are used for clustering in 3D space. This means pixels with the same color but altering alpha values are classified as identical.
@@ -36,31 +50,34 @@ from uugai_python_color_prediction.ColorPrediction import ColorPrediction
 IMAGE_PATH = 'python_color_prediction/data/flowers.jpeg'
 
 # Read the image
-image = cv2.imread(IMAGE_PATH)
+img = cv2.imread(IMAGE_PATH, cv2.IMREAD_UNCHANGED)
 
 # Call the elbow_method function
-optimal_centroids, optimal_k, optimal_percentages = ColorPrediction.find_main_colors(image, min_clusters=1, max_clusters=10, downsample_factor=0.95, increase_elbow=0, verbose=True, plot=True)
+optimal_k, kmeans_data = ColorPrediction.find_main_colors(
+    image = image,
+    min_clusters=1,
+    max_clusters=8, 
+    downsample_factor=0.98, 
+    increase_elbow=0, 
+    verbose=True, 
+    plot=True)
 ```
 
 This would result in the following output, with `verbose = True`:
 
 ```
-Calculating for k =  1
-Calculating for k =  2
-Calculating for k =  3
-Calculating for k =  4
-Calculating for k =  5
-Calculating for k =  6
-Calculating for k =  7
-Calculating for k =  8
-Calculating for k =  9
-Calculating for k =  10
-The optimal number of clusters is:  3
-The colors associated with each cluster are: 
- [[ 54  35  24]
- [125  34 209]
- [200 138  98]]
-The percentage of points in each cluster are:  [43 29 27]
+Calculating KMeans for k=1...
+Calculating KMeans for k=2...
+Calculating KMeans for k=3...
+Calculating KMeans for k=4...
+Calculating KMeans for k=5...
+Calculating KMeans for k=6...
+Calculating KMeans for k=7...
+Calculating KMeans for k=8...
+
+The optimal number of clusters is: 2
+Color: [227 143 167], Percentage: 30.2%
+Color: [85 93 71], Percentage: 69.8%
 ```
 
 The plotting parameter enables the creation of a KMeans-clustering inertia plot, which is used for the elbow method. Additionally, it generates a 3D scatter plot of the pixel values, displaying the cluster centroids in their corresponding colors. Finally, it includes a small plot showing the centroid colors along with their respective percentages.
