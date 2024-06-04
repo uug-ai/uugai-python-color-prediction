@@ -15,13 +15,19 @@ Thereafter, import the function into your own python file. The package can be fo
 The find_main_colors function is used to predict the dominant colors of an image. It takes several parameters:
 
 * image: The input image for color prediction, using `cv2.imread(IMAGE_PATH)`.
+* coding: The colorsystem used, supported is BGR (standard), RGB, BGRA and RGBA.
 * min_clusters and max_clusters: The minimum and maximum number of clusters to use for k-means clustering.
-* downsample_factor: A factor used to downsample the image before color prediction. Default value is 0.95.
+* downsample_factor: A factor used to downsample the image before color prediction. Default value is 0.
 * increase_elbow: An optional parameter to increase/decrease the elbow point in the k-means clustering algorithm. Default value is 0.
 * verbose: A boolean value indicating whether to print verbose output during color prediction. Default value is False.
 * plot: A boolean value indicating whether to plot the color prediction results. Default value is False.
 
 To use the find_main_colors function, simply pass the required parameters and call the function. The function will return the predicted dominant colors of the image, optimal number of centroids ± the elbow offset and the percentages of pixels belonging to that centroid.
+
+### Alpha channel additonal details
+* If RGBA or BGRA is used, pixels with full transparancy are removed for clustering. This allows the color detection to work with for example masked images from segmentation models. For pixels with alpha values different from 0, the color channels are used for clustering in 3D space. This means pixels with the same color but altering alpha values are classified as identical.
+
+* The downsampling creates artifacts when used together with RGBA or BGRA color systems. It is recommended not to use the build in downsampling method provided for RGBA or BGRA images. This issue may be fixed in later versions. 
 
 ## Usage example
 ```Python
