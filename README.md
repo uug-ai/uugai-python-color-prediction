@@ -54,7 +54,8 @@ img = cv2.imread(IMAGE_PATH, cv2.IMREAD_UNCHANGED)
 
 # Call the elbow_method function
 optimal_k, kmeans_data = ColorPrediction.find_main_colors(
-    image = image,
+    image = img,
+    coding = 'RGB'
     min_clusters=1,
     max_clusters=8, 
     downsample_factor=0.98, 
