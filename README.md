@@ -39,9 +39,10 @@ The kmeans-data looks something like this:
 ```
 
 ### Alpha channel additonal details
-* If RGBA or BGRA is used, pixels with full transparancy are removed for clustering. This allows the color detection to work with for example masked images from segmentation models. For pixels with alpha values different from 0, the color channels are used for clustering in 3D space. This means pixels with the same color but altering alpha values are classified as identical.
+If RGBA or BGRA is used, pixels with full transparancy are removed for clustering. This allows the color detection to work with for example masked images from segmentation models. For pixels with alpha values different from 0, the color channels are used for clustering in 3D space. This means pixels with the same color but altering alpha values are classified as identical.
 
-* The downsampling creates artifacts when used together with RGBA or BGRA color systems. It is recommended not to use the build in downsampling method provided for RGBA or BGRA images. This issue may be fixed in later versions. 
+### No elbow point found
+If no elbow point can be found, the function will return an optimal cluster value of None.
 
 ## Usage example
 ```Python

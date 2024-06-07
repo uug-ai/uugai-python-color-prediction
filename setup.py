@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
    name='uugai_python_color_prediction',
-   version='2.2.0',
+   version='2.3.0',
    description='Color prediction Python library used to find the main colors in an image.', 
    author='uug.ai',
    author_email='support@uug.ai',

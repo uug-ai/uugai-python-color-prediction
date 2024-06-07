@@ -63,19 +63,23 @@ class ColorPrediction:
 
         # Print the optimal values
         if verbose:
-            print(f"\nThe optimal number of clusters is: {optimal_k}")
-            for color, percentage in zip(kmeans_data[optimal_k]['centroids'], kmeans_data[optimal_k]['percentages']):
-                print(f"Color: {color}, Percentage: {percentage}%")
-
-            if increase_elbow != 0:
-                print(f"\nIncreasing the elbow point by {increase_elbow} cluster(s):")
-                print(f"New number of clusters is: {optimal_k + increase_elbow}")
-                for color, percentage in zip(kmeans_data[optimal_k + increase_elbow]['centroids'], kmeans_data[optimal_k + increase_elbow]['percentages']):
+            if optimal_k is not None:
+                print(f"\nThe optimal number of clusters is: {optimal_k}")
+                for color, percentage in zip(kmeans_data[optimal_k]['centroids'], kmeans_data[optimal_k]['percentages']):
                     print(f"Color: {color}, Percentage: {percentage}%")
+
+            
+                if increase_elbow != 0:
+                    print(f"\nIncreasing the elbow point by {increase_elbow} cluster(s):")
+                    print(f"New number of clusters is: {optimal_k + increase_elbow}")
+                    for color, percentage in zip(kmeans_data[optimal_k + increase_elbow]['centroids'], kmeans_data[optimal_k + increase_elbow]['percentages']):
+                        print(f"Color: {color}, Percentage: {percentage}%")
+            else:
+                print("No elbow point found. Please try again with different parameters.")
         
 
         # Plot the inertia values, RGB squares, and RGB scatterplot
-        if plot:
+        if plot and optimal_k is not None:
             ColorPrediction.plot_kmeans_inertias(kmeans_data)
             ColorPrediction.plot_bgr_squares(kmeans_data, optimal_k + increase_elbow)
             ColorPrediction.plot_bgr_scatter(data, kmeans_data, optimal_k + increase_elbow)
@@ -226,11 +230,7 @@ class ColorPrediction:
             curve='convex', 
             direction='decreasing')
         
-        # Get the elbow point, if no elbow point is found, raise a ValueError
-        k_elbow = kn.elbow
-        if k_elbow is None:
-            return ValueError("The elbow point could not be found. Please try increasing max_k.")
-        
+        # Return the elbow point, if no elbow point is found, return None
         return kn.elbow
     
 
