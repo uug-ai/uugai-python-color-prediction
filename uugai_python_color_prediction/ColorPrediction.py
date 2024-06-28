@@ -3,6 +3,7 @@ import numpy as np
 from kneed import KneeLocator
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+import time
 
 
 
@@ -34,32 +35,42 @@ class ColorPrediction:
         """
 
         # Downsample the image if the downsample factor is not 0
+        start_time_downsample = time.time()
         if downsample_factor != 0:
             image = ColorPrediction.downsample_image(image=image, scale_factor=downsample_factor)
         else:
             image = image
+        end_time_downsample = time.time()
 
 
         # Depending on the coding, create the data and image arrays.
+        start_time_preprocessing = time.time()
         image, data = ColorPrediction.create_data_and_image(
             in_image=image,
             coding=coding)
+        end_time_preprocessing = time.time()
 
 
         # Calculate the inertia values, percentages, and centroids with the KMeans algorithm
+        start_time_kmeans = time.time()
         kmeans_data = ColorPrediction.kmeans_inertias(
             data=data,
             min_clusters=min_clusters,
             max_clusters=max_clusters,
             verbose = verbose)
+        end_time_kmeans = time.time()
 
 
         # Find the optimal k-clusters value using the elbow method
-        optimal_k = ColorPrediction.find_elbow_point(
-            inertias=[kmeans_data[k]['inertias'] for k in kmeans_data.keys()],
-            min_clusters=min_clusters,
-            max_clusters=max_clusters)
-
+        start_time_elbow = time.time()
+        if min_clusters == max_clusters:
+            optimal_k = min_clusters
+        else:
+            optimal_k = ColorPrediction.find_elbow_point(
+                inertias=[kmeans_data[k]['inertias'] for k in kmeans_data.keys()],
+                min_clusters=min_clusters,
+                max_clusters=max_clusters)
+        end_time_elbow = time.time()
 
         # Print the optimal values
         if verbose:
@@ -74,6 +85,12 @@ class ColorPrediction:
                     print(f"New number of clusters is: {optimal_k + increase_elbow}")
                     for color, percentage in zip(kmeans_data[optimal_k + increase_elbow]['centroids'], kmeans_data[optimal_k + increase_elbow]['percentages']):
                         print(f"Color: {color}, Percentage: {percentage}%")
+
+                print(f"\nTime taken to downsample the image: {end_time_downsample - start_time_downsample:.2f} seconds")
+                print(f"Time taken to preprocess the image: {end_time_preprocessing - start_time_preprocessing:.2f} seconds")
+                print(f"Time taken to calculate the KMeans-inertias: {end_time_kmeans - start_time_kmeans:.2f} seconds")
+                print(f"Time taken to find the elbow point: {end_time_elbow - start_time_elbow:.2f} seconds")
+
             else:
                 print("No elbow point found. Please try again with different parameters.")
         

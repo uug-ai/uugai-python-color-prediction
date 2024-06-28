@@ -11,6 +11,16 @@ Thereafter, import the function into your own python file. The package can be fo
 * installation using pip: `pip install uugai_python_color_prediction`
 * python import: `from uugai_python_color_prediction.ColorPrediction import ColorPrediction`
 
+### Uploading the package to PyPi
+
+This can be easily done in just a few terminal commands. First edit the setup.py file to alter the version name. Thereafter execute following commands:
+
+```
+python setup.py sdist bdist_wheel
+cd dist
+twine upload *
+```
+
 ## Usage
 The find_main_colors function is used to predict the dominant colors of an image. It takes several parameters:
 
