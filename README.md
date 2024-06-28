@@ -11,7 +11,7 @@ Thereafter, import the function into your own python file. The package can be fo
 * installation using pip: `pip install uugai_python_color_prediction`
 * python import: `from uugai_python_color_prediction.ColorPrediction import ColorPrediction`
 
-### Uploading the package to PyPi
+### Uploading package to PyPi
 
 This can be easily done in just a few terminal commands. First edit the setup.py file to alter the version name. Thereafter execute following commands:
 
@@ -51,7 +51,7 @@ The kmeans-data looks something like this:
 ### Alpha channel additonal details
 If RGBA or BGRA is used, pixels with full transparancy are removed for clustering. This allows the color detection to work with for example masked images from segmentation models. For pixels with alpha values different from 0, the color channels are used for clustering in 3D space. This means pixels with the same color but altering alpha values are classified as identical.
 
-### No elbow point found
+### No elbow point found
 If no elbow point can be found, the function will return an optimal cluster value of None.
 
 ## Usage example
